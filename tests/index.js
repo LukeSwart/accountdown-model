@@ -14,7 +14,7 @@ var accountdown = accountdown(sublevel(db, 'accounts'), {
   login: { basic: accountdownBasic }
 })
 
-var accounts = require('../index')(accountdown, { 
+var accounts = require('../index')(accountdown, {
   db: db,
   properties: {
     username: { type: 'string' },
@@ -46,6 +46,16 @@ test('find account by username', function (t) {
   accounts.findOne('pizza', function (err, account) {
     t.ok(account)
     t.equals(account.username, 'pizza')
+    t.end()
+  })
+})
+
+test('find account by username fail', function (t) {
+  accounts.findOne('nobodyHere1234', function (err, account) {
+    //console.log("err:", err)
+    //console.log("account:", account)
+    t.ok(err)
+    t.ifError(account)
     t.end()
   })
 })
